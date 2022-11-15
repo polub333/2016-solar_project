@@ -1,8 +1,11 @@
 # coding: utf-8
 # license: GPLv3
 
-import tkinter
-from tkinter.filedialog import *
+#import tkinter
+#from tkinter.filedialog import *\
+
+from sys import exec_prefix
+import pygame
 from solar_vis import *
 from solar_model import *
 from solar_input import *
@@ -14,10 +17,6 @@ physical_time = 0
 """Физическое время от начала расчёта.
 Тип: float"""
 
-displayed_time = None
-"""Отображаемое на экране время.
-Тип: переменная tkinter"""
-
 time_step = None
 """Шаг по времени при моделировании.
 Тип: float"""
@@ -26,7 +25,7 @@ space_objects = []
 """Список космических объектов."""
 
 
-def execution():
+def execution(time_step):
     """Функция исполнения -- выполняется циклически, вызывая обработку всех небесных тел,
     а также обновляя их положение на экране.
     Цикличность выполнения зависит от значения глобальной переменной perform_execution.
@@ -34,14 +33,10 @@ def execution():
     """
     global physical_time
     global displayed_time
-    recalculate_space_objects_positions(space_objects, time_step.get())
+    recalculate_space_objects_positions(space_objects, time_step)
     for body in space_objects:
         update_object_position(space, body)
-    physical_time += time_step.get()
-    displayed_time.set("%.1f" % physical_time + " seconds gone")
-
-    if perform_execution:
-        space.after(101 - int(time_speed.get()), execution)
+    physical_time += time_step
 
 
 def start_execution():
@@ -50,10 +45,9 @@ def start_execution():
     """
     global perform_execution
     perform_execution = True
-    start_button['text'] = "Pause"
-    start_button['command'] = stop_execution
+    #start_button['text'] = "Pause"
+    #start_button['command'] = stop_execution
 
-    execution()
     print('Started execution...')
 
 
@@ -63,11 +57,11 @@ def stop_execution():
     """
     global perform_execution
     perform_execution = False
-    start_button['text'] = "Start"
-    start_button['command'] = start_execution
+    #start_button['text'] = "Start"
+    #start_button['command'] = start_execution
     print('Paused execution.')
 
-
+'''
 def open_file_dialog():
     """Открывает диалоговое окно выбора имени файла и вызывает
     функцию считывания параметров системы небесных тел из данного файла.
@@ -99,7 +93,7 @@ def save_file_dialog():
     """
     out_filename = asksaveasfilename(filetypes=(("Text file", ".txt"),))
     write_space_objects_data_to_file(out_filename, space_objects)
-
+'''
 
 def main():
     """Главная функция главного модуля.
@@ -115,6 +109,28 @@ def main():
     print('Modelling started!')
     physical_time = 0
 
+    pygame.init()
+    space = pygame.display.set_mode((window_width, window_height))
+    clock = pygame.time.Clock()
+    FPS = 30
+    finished = False
+    
+    read_space_objects_data_from_file("solar_system.txt")
+    
+    
+    while not finished:
+        space.fill("white")
+        clock.tick(FPS)
+        if perform_execution:
+            execution(1/FPS)
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                finished = True
+            elif event.type == pygame.MOUSEBUTTONUP:
+                start_execution()
+
+        
+'''
     root = tkinter.Tk()
     # космическое пространство отображается на холсте типа Canvas
     space = tkinter.Canvas(root, width=window_width, height=window_height, bg="black")
@@ -130,6 +146,7 @@ def main():
     time_step.set(1)
     time_step_entry = tkinter.Entry(frame, textvariable=time_step)
     time_step_entry.pack(side=tkinter.LEFT)
+
 
     time_speed = tkinter.DoubleVar()
     scale = tkinter.Scale(frame, variable=time_speed, orient=tkinter.HORIZONTAL)
@@ -147,6 +164,7 @@ def main():
 
     root.mainloop()
     print('Modelling finished!')
+'''
 
 if __name__ == "__main__":
     main()
