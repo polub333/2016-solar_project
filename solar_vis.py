@@ -55,8 +55,7 @@ def scale_y(y):
 
     **y** — y-координата модели.
     """
-
-    #return y  # FIXME: not done yet
+    
     return -1*int(y*scale_factor) + window_height//2
 
 
@@ -112,13 +111,7 @@ def update_object_position(space, body):
     x = scale_x(body.x)
     y = scale_y(body.y)
     r = body.R
-    #if x + r < 0 or x - r > window_width or y + r < 0 or y - r > window_height:
-        #space.coords(body.image, window_width + r, window_height + r,
-        #             window_width + 2*r, window_height + 2*r)  # положить за пределы окна
-    #    pygame.draw.addElipse(space, x, y, r, body.color)
     pygame.draw.circle(space, body.color, (x, y), r)
-    
-    #space.coords(body.image, x - r, y - r, x + r, y + r)
 
 
 if __name__ == "__main__":

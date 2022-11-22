@@ -55,42 +55,8 @@ def stop_execution():
     """
     global perform_execution
     perform_execution = False
-
     print('Paused execution.')
 
-'''
-def open_file_dialog():
-    """Открывает диалоговое окно выбора имени файла и вызывает
-    функцию считывания параметров системы небесных тел из данного файла.
-    Считанные объекты сохраняются в глобальный список space_objects
-    """
-    global space_objects
-    global perform_execution
-    perform_execution = False
-    for obj in space_objects:
-        space.delete(obj.image)  # удаление старых изображений планет
-    in_filename = askopenfilename(filetypes=(("Text file", ".txt"),))
-    space_objects = read_space_objects_data_from_file(in_filename)
-    max_distance = max([max(abs(obj.x), abs(obj.y)) for obj in space_objects])
-    calculate_scale_factor(max_distance)
-
-    for obj in space_objects:
-        if obj.type == 'star':
-            create_star_image(space, obj)
-        elif obj.type == 'planet':
-            create_planet_image(space, obj)
-        else:
-            raise AssertionError()
-
-
-def save_file_dialog():
-    """Открывает диалоговое окно выбора имени файла и вызывает
-    функцию считывания параметров системы небесных тел из данного файла.
-    Считанные объекты сохраняются в глобальный список space_objects
-    """
-    out_filename = asksaveasfilename(filetypes=(("Text file", ".txt"),))
-    write_space_objects_data_to_file(out_filename, space_objects)
-'''
 
 def main():
     """Главная функция главного модуля.
@@ -117,16 +83,14 @@ def main():
     finished = False
     
     space_objects = read_space_objects_data_from_file("solar_system.txt")
-    calculate_scale_factor(4500000000000)
+    calculate_scale_factor(45e11)
     
     while not finished:
-
         pygame.display.update()
         space.fill("white")
         clock.tick(FPS)
         if perform_execution:
             for i in range(100):
-               # 1/FPS
                 execution(1/FPS*10000)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -134,42 +98,6 @@ def main():
             elif event.type == pygame.MOUSEBUTTONUP:
                 start_execution()
 
-        
-'''
-    root = tkinter.Tk()
-    # космическое пространство отображается на холсте типа Canvas
-    space = tkinter.Canvas(root, width=window_width, height=window_height, bg="black")
-    space.pack(side=tkinter.TOP)
-    # нижняя панель с кнопками
-    frame = tkinter.Frame(root)
-    frame.pack(side=tkinter.BOTTOM)
-
-    start_button = tkinter.Button(frame, text="Start", command=start_execution, width=6)
-    start_button.pack(side=tkinter.LEFT)
-
-    time_step = tkinter.DoubleVar()
-    time_step.set(1)
-    time_step_entry = tkinter.Entry(frame, textvariable=time_step)
-    time_step_entry.pack(side=tkinter.LEFT)
-
-
-    time_speed = tkinter.DoubleVar()
-    scale = tkinter.Scale(frame, variable=time_speed, orient=tkinter.HORIZONTAL)
-    scale.pack(side=tkinter.LEFT)
-
-    load_file_button = tkinter.Button(frame, text="Open file...", command=open_file_dialog)
-    load_file_button.pack(side=tkinter.LEFT)
-    save_file_button = tkinter.Button(frame, text="Save to file...", command=save_file_dialog)
-    save_file_button.pack(side=tkinter.LEFT)
-
-    displayed_time = tkinter.StringVar()
-    displayed_time.set(str(physical_time) + " seconds gone")
-    time_label = tkinter.Label(frame, textvariable=displayed_time, width=30)
-    time_label.pack(side=tkinter.RIGHT)
-
-    root.mainloop()
-    print('Modelling finished!')
-'''
 
 if __name__ == "__main__":
     main()
