@@ -34,6 +34,7 @@ def read_space_objects_data_from_file(input_filename):
 
 
 def translate(str):
+    ''' переводит строку в число'''
     str_cut=0
     for i in range(len(str)):
         if str[i] == "E":
