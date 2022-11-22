@@ -45,8 +45,6 @@ def start_execution():
     """
     global perform_execution
     perform_execution = True
-    #start_button['text'] = "Pause"
-    #start_button['command'] = stop_execution
 
     print('Started execution...')
 
@@ -57,8 +55,7 @@ def stop_execution():
     """
     global perform_execution
     perform_execution = False
-    #start_button['text'] = "Start"
-    #start_button['command'] = start_execution
+
     print('Paused execution.')
 
 '''
