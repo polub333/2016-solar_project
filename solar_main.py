@@ -97,6 +97,9 @@ def main():
     Создаёт объекты графического дизайна библиотеки tkinter: окно, холст, фрейм с кнопками, кнопки.
     """
     global physical_time
+    
+    global space_objects
+    
     global displayed_time
     global time_step
     global time_speed
@@ -108,18 +111,23 @@ def main():
 
     pygame.init()
     space = pygame.display.set_mode((window_width, window_height))
+    space.fill("white")
     clock = pygame.time.Clock()
     FPS = 30
     finished = False
     
-    read_space_objects_data_from_file("solar_system.txt")
-    
+    space_objects = read_space_objects_data_from_file("solar_system.txt")
+    calculate_scale_factor(4500000000000)
     
     while not finished:
+
+        pygame.display.update()
         space.fill("white")
         clock.tick(FPS)
         if perform_execution:
-            execution(1/FPS)
+            for i in range(100):
+               # 1/FPS
+                execution(1/FPS*10000)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 finished = True

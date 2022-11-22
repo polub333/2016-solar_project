@@ -109,7 +109,6 @@ def update_object_position(space, body):
     **space** — холст для рисования.
     **body** — тело, которое нужно переместить.
     """
-    print("LOL")
     x = scale_x(body.x)
     y = scale_y(body.y)
     r = body.R
@@ -117,7 +116,7 @@ def update_object_position(space, body):
         #space.coords(body.image, window_width + r, window_height + r,
         #             window_width + 2*r, window_height + 2*r)  # положить за пределы окна
     #    pygame.draw.addElipse(space, x, y, r, body.color)
-    pygame.draw.addEllipde(space, x, y, r, body.color)
+    pygame.draw.circle(space, body.color, (x, y), r)
     
     #space.coords(body.image, x - r, y - r, x + r, y + r)
 

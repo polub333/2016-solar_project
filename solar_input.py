@@ -38,8 +38,10 @@ def translate(str):
     for i in range(len(str)):
         if str[i] == "E":
             str_cut = str[:i]
-    return float(str_cut)
-
+            return float(str_cut) * (10**int(str[(i+1):]))
+    return int(str)
+    
+            
 
 def parse_star_parameters(line, star):
     """Считывает данные о звезде из строки.
