@@ -33,6 +33,14 @@ def read_space_objects_data_from_file(input_filename):
     return objects
 
 
+def translate(str):
+    str_cut=0
+    for i in range(len(str)):
+        if str[i] == "E":
+            str_cut = str[:i]
+    return float(str_cut)
+
+
 def parse_star_parameters(line, star):
     """Считывает данные о звезде из строки.
     Входная строка должна иметь слеюущий формат:
@@ -48,13 +56,13 @@ def parse_star_parameters(line, star):
     **star** — объект звезды.
     """
     parameters = line.split()
-    star.r = int(parameters[1])
+    star.r = translate(parameters[1])
     star.color = parameters[2]
-    star.m = int(parameters[3])
-    star.x = int(parameters[4])
-    star.y = int(parameters[5])
-    star.Vx = int(parameters[6])
-    star.Vy = int(parameters[7])
+    star.m = translate(parameters[3])
+    star.x = translate(parameters[4])
+    star.y = translate(parameters[5])
+    star.Vx = translate(parameters[6])
+    star.Vy = translate(parameters[7])
 
 def parse_planet_parameters(line, planet):
     """Считывает данные о планете из строки.
@@ -72,13 +80,13 @@ def parse_planet_parameters(line, planet):
     **planet** — объект планеты.
     """
     parameters = line.split()
-    planet.r = int(parameters[1])
+    planet.r = translate(parameters[1])
     planet.color = parameters[2]
-    planet.m = int(parameters[3])
-    planet.x = int(parameters[4])
-    planet.y = int(parameters[5])
-    planet.Vx = int(parameters[6])
-    planet.Vy = int(parameters[7])
+    planet.m = translate(parameters[3])
+    planet.x = translate(parameters[4])
+    planet.y = translate(parameters[5])
+    planet.Vx = translate(parameters[6])
+    planet.Vy = translate(parameters[7])
 
 
 def write_space_objects_data_to_file(output_filename, space_objects):
